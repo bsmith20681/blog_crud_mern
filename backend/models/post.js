@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
     min: 20,
     max: 2000000
   },
+  postedBy: {
+    type: ObjectId,
+    ref: 'User'
+  },
   user: {
     type: String,
     default: 'Admin'

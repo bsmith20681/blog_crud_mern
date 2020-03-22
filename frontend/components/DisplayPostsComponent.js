@@ -1,11 +1,17 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import {getCookie, isAuth} from '../actions/auth'
 
 const DisplayPostsComponent = () => {
   const [posts, setPosts] = useState([])
+  const token = getCookie('token')
 
   const fetchPosts = () => {
-    axios.get('http://localhost:8000/api/post')
+    axios.get('http://localhost:8000/api/post', {
+      headers : {
+        authorization: `Bearer ${token}`
+      }
+    })
     .then(response => {
       console.log(response.data)
       setPosts(response.data)

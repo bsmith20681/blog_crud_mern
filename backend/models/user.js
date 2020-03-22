@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: Number,
-    trim: true
+    default: 0
   },
   photo: {
     data: Buffer,
@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
 userSchema
     .virtual('password')
     .set(function(password) {
-      
+
         this._password = password;
 
         this.salt = this.makeSalt();

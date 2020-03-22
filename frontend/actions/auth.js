@@ -99,3 +99,17 @@ export const isAuth = () => {
         }
     }
 };
+
+/*
+export const getToken = () => {
+  if(window !== 'undefined') {
+    console.log('this is from getToken')
+    console.log(sessionStorage.getItem('token'))
+    if (sessionStorage.getItem('token')){
+      return JSON.parse(sessionStorage.getItem('token'))
+    } else {
+      return false
+    }
+  }
+}
+*/

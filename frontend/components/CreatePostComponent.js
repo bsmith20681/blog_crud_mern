@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import axios from 'axios'
+import {getCookie} from '../actions/auth'
 
 const CreatePostComponent = () => {
 
@@ -9,11 +10,16 @@ const CreatePostComponent = () => {
   })
 
   const {title, content} = state
+  const token = getCookie('token')
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    axios.post(`http://localhost:8000/api/post`,{title, content})
+    axios.post(`http://localhost:8000/api/post`,{title, content} ,{
+      headers : {
+        authorization: `Bearer ${token}`
+      }
+    })
       .then(response => {
 
         setState({...state, title: '', content: ''})
@@ -28,7 +34,6 @@ const CreatePostComponent = () => {
 
   const handleChange = (name) => (e) => {
     setState({...state, [name]: e.target.value})
-
   }
 
   const createPost = () => {

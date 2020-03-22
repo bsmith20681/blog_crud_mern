@@ -34,6 +34,22 @@ const Header = () => {
             )}
 
             {isAuth() && (
+              <Link href="/myposts">
+                <li class="nav-item active">
+                  <a class="nav-link">See My Posts</a>
+                </li>
+              </Link>
+            )}
+
+            {isAuth() && (
+              <Link href="/createpost">
+                <li class="nav-item active">
+                  <a class="nav-link">Create New Post</a>
+                </li>
+              </Link>
+            )}
+
+            {isAuth() && (
               <li onClick={() => signout(() => Router.replace(`/signin`))} class="nav-item active">
                 <a class="nav-link">Sign Out</a>
               </li>

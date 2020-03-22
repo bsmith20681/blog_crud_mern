@@ -1,5 +1,6 @@
 const Post = require('../models/post')
 const slugify = require('slugify')
+const expressJwt = require('express-jwt')
 
 exports.create = (req, res) => {
     const {title, content, user} = req.body
