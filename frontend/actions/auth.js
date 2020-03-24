@@ -100,16 +100,12 @@ export const isAuth = () => {
     }
 };
 
-/*
-export const getToken = () => {
-  if(window !== 'undefined') {
-    console.log('this is from getToken')
-    console.log(sessionStorage.getItem('token'))
-    if (sessionStorage.getItem('token')){
-      return JSON.parse(sessionStorage.getItem('token'))
-    } else {
-      return false
-    }
-  }
+export const singlePost = slug => {
+  return fetch(`${API}/post/${slug}`, {
+    method: 'GET'
+  })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => console.log(err))
 }
-*/

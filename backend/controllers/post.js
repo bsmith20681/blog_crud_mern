@@ -37,3 +37,33 @@ exports.list = (req, res) => {
     res.json(posts);
   })
 }
+
+exports.listSinglePost = (req, res) => {
+  const {slug} = req.params
+  Post.findOne({slug})
+    .exec((err, post) => {
+      if (err) console.log(err)
+      res.json(post)
+    })
+}
+
+exports.update = (req, res) => {
+  const {slug} = req.params
+  const {title, content, user} = req.body
+  Post.findOneAndUpdate({slug}, {title, content, user}, {new: true})
+    .exec((err, post) => {
+      if(err) console.log(err)
+        res.json(post)
+    })
+}
+
+exports.remove = (req, res) => {
+  const {slug} = req.params
+  Post.findOneAndRemove({slug})
+    .exec((err, post) => {
+      if(err) console.log(err)
+      res.json({
+        message: 'Post was deleted'
+      })
+  })
+}
