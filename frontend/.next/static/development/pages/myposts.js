@@ -4,7 +4,7 @@
 /*!*************************!*\
   !*** ./actions/auth.js ***!
   \*************************/
-/*! exports provided: signup, signin, signout, setCookie, removeCookie, getCookie, setLocalStorage, removeLocalStorage, authenticate, isAuth, singlePost */
+/*! exports provided: signup, signin, signout, setCookie, removeCookie, getCookie, setLocalStorage, removeLocalStorage, authenticate, removeBlog, isAuth, singlePost */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18,6 +18,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLocalStorage", function() { return setLocalStorage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeLocalStorage", function() { return removeLocalStorage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authenticate", function() { return authenticate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeBlog", function() { return removeBlog; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAuth", function() { return isAuth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "singlePost", function() { return singlePost; });
 /* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! isomorphic-fetch */ "./node_modules/isomorphic-fetch/fetch-npm-browserify.js");
@@ -106,6 +107,22 @@ var authenticate = function authenticate(data, next) {
   setLocalStorage('user', data.user);
   next();
 };
+var removeBlog = function removeBlog(slug, token) {
+  console.log("".concat(_config__WEBPACK_IMPORTED_MODULE_2__["API"], "/post/").concat(slug));
+  return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_0___default()("".concat(_config__WEBPACK_IMPORTED_MODULE_2__["API"], "/post/").concat(slug), {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: "Bearer ".concat(token)
+    }
+  });
+  console.log(slug).then(function (response) {
+    return response.json();
+  })["catch"](function (err) {
+    return console.log(err);
+  });
+};
 var isAuth = function isAuth() {
   if (true) {
     var cookieChecked = getCookie('token');
@@ -160,6 +177,10 @@ var DisplayPostsComponent = function DisplayPostsComponent() {
       posts = _useState[0],
       setPosts = _useState[1];
 
+  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      message = _useState2[0],
+      setMessage = _useState2[1];
+
   var token = Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["getCookie"])('token');
 
   var fetchPosts = function fetchPosts() {
@@ -176,7 +197,7 @@ var DisplayPostsComponent = function DisplayPostsComponent() {
   };
 
   var deletePost = function deletePost(slug) {
-    removeBlog(slug, token).then(function (data) {
+    Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["removeBlog"])(slug, token).then(function (data) {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -192,89 +213,91 @@ var DisplayPostsComponent = function DisplayPostsComponent() {
     "class": "container",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38
+      lineNumber: 39
     },
     __self: this
   }, __jsx("div", {
     "class": "row",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 40
     },
     __self: this
   }, posts.map(function (post, i) {
     return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 41
+        lineNumber: 42
       },
       __self: this
     }, __jsx("div", {
       "class": "col-lg-8 col-md-8 col-sm-12",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 42
+        lineNumber: 43
       },
       __self: this
     }, __jsx("div", {
       key: post._id,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 43
+        lineNumber: 44
       },
       __self: this
     }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
       href: "/post/".concat(post.slug),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 44
+        lineNumber: 45
       },
       __self: this
     }, __jsx("h1", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 44
+        lineNumber: 45
       },
       __self: this
     }, post.title)), __jsx("p", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 45
+        lineNumber: 46
       },
       __self: this
     }, post.content.substring(0, 100)), __jsx("p", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 46
+        lineNumber: 47
       },
       __self: this
     }, "published on: ", new Date(post.createAt).toLocaleString()))), __jsx("div", {
       "class": "col-lg-4 col-md-4 col-sm-12",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49
+        lineNumber: 50
       },
       __self: this
     }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
       href: "/post/update/".concat(post.slug),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50
+        lineNumber: 51
       },
       __self: this
     }, __jsx("button", {
       "class": "btn btn-sm btn-outline-warning",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50
+        lineNumber: 51
       },
       __self: this
     }, "Update")), __jsx("button", {
-      onClick: deletePost(),
+      onClick: function onClick() {
+        return deletePost(post.slug);
+      },
       "class": "btn btn-sm btn-outline-danger",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 51
+        lineNumber: 52
       },
       __self: this
     }, "Delete")));
@@ -7165,7 +7188,7 @@ var MyPosts = function MyPosts() {
 
 /***/ }),
 
-/***/ 2:
+/***/ 5:
 /*!************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2Fmyposts&absolutePagePath=D%3A%5Cblog_crud%5Cfrontend%5Cpages%5Cmyposts.js ***!
   \************************************************************************************************************************/
@@ -7188,5 +7211,5 @@ module.exports = dll_0fb095e325d7ebf261c3;
 
 /***/ })
 
-},[[2,"static/runtime/webpack.js","styles"]]]);
+},[[5,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=myposts.js.map

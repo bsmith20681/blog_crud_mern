@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -97,7 +97,7 @@ module.exports =
 /*!*************************!*\
   !*** ./actions/auth.js ***!
   \*************************/
-/*! exports provided: signup, signin, signout, setCookie, removeCookie, getCookie, setLocalStorage, removeLocalStorage, authenticate, isAuth, singlePost */
+/*! exports provided: signup, signin, signout, setCookie, removeCookie, getCookie, setLocalStorage, removeLocalStorage, authenticate, removeBlog, isAuth, singlePost */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -111,6 +111,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLocalStorage", function() { return setLocalStorage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeLocalStorage", function() { return removeLocalStorage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authenticate", function() { return authenticate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeBlog", function() { return removeBlog; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAuth", function() { return isAuth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "singlePost", function() { return singlePost; });
 /* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! isomorphic-fetch */ "isomorphic-fetch");
@@ -179,6 +180,20 @@ const authenticate = (data, next) => {
   setLocalStorage('user', data.user);
   next();
 };
+const removeBlog = (slug, token) => {
+  console.log(`${_config__WEBPACK_IMPORTED_MODULE_2__["API"]}/post/${slug}`);
+  return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_0___default()(`${_config__WEBPACK_IMPORTED_MODULE_2__["API"]}/post/${slug}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  });
+  console.log(slug).then(response => {
+    return response.json();
+  }).catch(err => console.log(err));
+};
 const isAuth = () => {
   if (false) {}
 };
@@ -221,6 +236,10 @@ const DisplayPostsComponent = () => {
     0: posts,
     1: setPosts
   } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const {
+    0: message,
+    1: setMessage
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const token = Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["getCookie"])('token');
 
   const fetchPosts = () => {
@@ -235,7 +254,7 @@ const DisplayPostsComponent = () => {
   };
 
   const deletePost = slug => {
-    removeBlog(slug, token).then(data => {
+    Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["removeBlog"])(slug, token).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -251,88 +270,88 @@ const DisplayPostsComponent = () => {
     class: "container",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38
+      lineNumber: 39
     },
     __self: undefined
   }, __jsx("div", {
     class: "row",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 40
     },
     __self: undefined
   }, posts.map((post, i) => __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 41
-    },
-    __self: undefined
-  }, __jsx("div", {
-    class: "col-lg-8 col-md-8 col-sm-12",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 42
     },
     __self: undefined
   }, __jsx("div", {
-    key: post._id,
+    class: "col-lg-8 col-md-8 col-sm-12",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 43
+    },
+    __self: undefined
+  }, __jsx("div", {
+    key: post._id,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 44
     },
     __self: undefined
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
     href: `/post/${post.slug}`,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44
+      lineNumber: 45
     },
     __self: undefined
   }, __jsx("h1", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44
+      lineNumber: 45
     },
     __self: undefined
   }, post.title)), __jsx("p", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 46
     },
     __self: undefined
   }, post.content.substring(0, 100)), __jsx("p", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46
+      lineNumber: 47
     },
     __self: undefined
   }, "published on: ", new Date(post.createAt).toLocaleString()))), __jsx("div", {
     class: "col-lg-4 col-md-4 col-sm-12",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49
+      lineNumber: 50
     },
     __self: undefined
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
     href: `/post/update/${post.slug}`,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50
+      lineNumber: 51
     },
     __self: undefined
   }, __jsx("button", {
     class: "btn btn-sm btn-outline-warning",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50
+      lineNumber: 51
     },
     __self: undefined
   }, "Update")), __jsx("button", {
-    onClick: deletePost(),
+    onClick: () => deletePost(post.slug),
     class: "btn btn-sm btn-outline-danger",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51
+      lineNumber: 52
     },
     __self: undefined
   }, "Delete"))))));
@@ -2387,7 +2406,7 @@ const MyPosts = () => {
 
 /***/ }),
 
-/***/ 4:
+/***/ 6:
 /*!********************************!*\
   !*** multi ./pages/myposts.js ***!
   \********************************/

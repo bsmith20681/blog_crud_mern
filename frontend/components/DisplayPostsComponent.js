@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import {getCookie, isAuth} from '../actions/auth'
+import {getCookie, isAuth, removeBlog } from '../actions/auth'
 import Link from 'next/link'
 
 const DisplayPostsComponent = () => {
   const [posts, setPosts] = useState([])
+  const [message, setMessage] = useState('')
   const token = getCookie('token')
 
   const fetchPosts = () => {
@@ -48,7 +49,7 @@ const DisplayPostsComponent = () => {
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12">
               <Link href={`/post/update/${post.slug}`}><button class="btn btn-sm btn-outline-warning">Update</button></Link>
-              <button onClick={deletePost()} class="btn btn-sm btn-outline-danger">Delete</button>
+              <button onClick={() => deletePost(post.slug)} class="btn btn-sm btn-outline-danger">Delete</button>
             </div>
           </ React.Fragment>
         )}

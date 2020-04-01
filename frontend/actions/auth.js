@@ -87,6 +87,24 @@ export const authenticate = (data, next) => {
     next();
 };
 
+export const removeBlog = (slug, token) => {
+  console.log(`${API}/post/${slug}`)
+    return fetch(`${API}/post/${slug}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+    console.log(slug)
+
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+};
+
 export const isAuth = () => {
     if (process.browser) {
         const cookieChecked = getCookie('token');
